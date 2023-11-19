@@ -1,6 +1,12 @@
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+
 namespace API.Controllers;
 
-public class BaseApiController
+[Route("api/[controller]")]
+[ApiController]
+[EnableCors]
+public class BaseApiController : ControllerBase
 {
     
 }
