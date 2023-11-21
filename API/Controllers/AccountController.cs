@@ -5,6 +5,7 @@ using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +21,8 @@ public class AccountController : BaseApiController
         _context = context;
         _tokenService = tokenService;
     }
-
+    
+    [AllowAnonymous]
     [HttpPost("register")] // api/account/register
     public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDto)
     {
@@ -46,7 +48,8 @@ public class AccountController : BaseApiController
             Token = _tokenService.CreateToken(user)
         };
     }
-
+    
+    [AllowAnonymous]
     [HttpPost]
     [Route("login")]
     public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDto)
