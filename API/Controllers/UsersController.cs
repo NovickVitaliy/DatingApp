@@ -1,5 +1,8 @@
 using API.Data;
+using API.DTOs;
 using API.Entities;
+using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,26 +12,32 @@ namespace API.Controllers;
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class UsersController : BaseApiController
 {
-    private readonly DataContext _context;
+    private readonly IUserRepository _context;
+    private readonly IMapper _mapper;
 
-    public UsersController(DataContext context)
+    public UsersController(IUserRepository context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
     
-    [AllowAnonymous]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
     {
-        ;var users = await _context.Users.ToListAsync();
+        var users = await _context.GetMembersAsync();
+        
+        return Ok(users);
 
-        return users;
     }
     
     [HttpGet]
-    [Route("{id}")]
-    public async Task<ActionResult<AppUser>> GetUser(int id)
+    [Route("{username}")]
+    public async Task<ActionResult<MemberDto>> GetUser(string username)
     {
-        return await _context.Users.FindAsync(id);
+         var user = await _context.GetUserByUsernameAsync(username);
+
+         var userToReturn = _mapper.Map<MemberDto>(user);
+
+         return Ok(userToReturn);
     }
 }
