@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#">Dating app</a>
+
+    <ul *ngIf="currentUser$ | async" class="navbar-nav me-auto mb-2 mb-md-0">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Matches</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Lists</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Messages</a>
+      </li>
+    </ul>
+
+    <ul *ngIf="currentUser$ | async" class="navbar-nav me-auto mb-2 mb-md-0">
+      <li class="nav-item float-right">
+        <a class="nav-link" href="#">Edit Profile</a>
+      </li>
+      <li class="nav-item float-right">
+        <a class="nav-link" (click)="logout()">Logout</a>
+      </li>
+    </ul>
+
+    <form *ngIf="!(currentUser$ | async)" #loginForm="ngForm" (ngSubmit)="login()" autocomplete="off" class="d-flex">
+      <input
+        class="form-control me-2"
+        type="tel"
+        placeholder="Username"
+        name="username"
+        [(ngModel)]="model.username">
+      <input
+        class="form-control me-2"
+        type="password"
+        placeholder="Password"
+        name="password"
+        [(ngModel)]="model.password">
+      <button class="btn btn-outline-success" type="submit">Login</button>
+    </form>
+  </div>
+</nav>
