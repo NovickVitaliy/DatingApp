@@ -5,18 +5,22 @@ import {AccountService} from "../_services/account.service";
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
 import {Observable, of} from "rxjs";
 import {User} from "../_models/user";
+import {Router, RouterLink, RouterLinkActive} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.scss'
 })
 export class NavComponent implements OnInit {
   model: any = {};
   currentUser$: Observable<User | null> = of(null);
-  constructor(private accountService: AccountService) {
+  constructor(private accountService: AccountService,
+              private router: Router,
+              private toastr: ToastrService) {
 
   }
 
@@ -28,20 +32,18 @@ export class NavComponent implements OnInit {
     if (this.model) {
       this.accountService.login(this.model)
         .subscribe({
-          next: response => {
-            console.log(response)
-          },
+          next: _ => { this.router.navigateByUrl("/members") },
           error: err => {
-            console.log(err);
+            console.log(err)
+            this.toastr.error(err.error)
           },
-          complete: () => {
-
-          }
+          complete: () => { }
         });
     }
   }
 
   public logout(){
     this.accountService.logout();
+    this.router.navigateByUrl("/");
   }
 }
