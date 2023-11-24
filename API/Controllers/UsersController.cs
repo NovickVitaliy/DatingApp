@@ -25,7 +25,6 @@ public class UsersController : BaseApiController
     public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
     {
         var users = await _context.GetMembersAsync();
-        
         return Ok(users);
 
     }
