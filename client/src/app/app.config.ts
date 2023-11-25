@@ -9,6 +9,8 @@ import {ToastrModule} from "ngx-toastr";
 import {errorInterceptor} from "./_interceptors/error.interceptor";
 import {jwtInterceptor} from "./_interceptors/jwt.interceptor";
 import {TabsModule} from "ngx-bootstrap/tabs";
+import {NgxSpinnerModule} from "ngx-spinner";
+import {loadingInterceptor} from "./_interceptors/loading.interceptor";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +22,9 @@ export const appConfig: ApplicationConfig = {
     positionClass: "toast-bottom-right"
   })),
   importProvidersFrom(BrowserAnimationsModule),
-  provideHttpClient(withInterceptors([errorInterceptor, jwtInterceptor])),
-  importProvidersFrom(TabsModule.forRoot())],
+  provideHttpClient(withInterceptors([errorInterceptor, jwtInterceptor, loadingInterceptor])),
+  importProvidersFrom(TabsModule.forRoot()),
+  importProvidersFrom(NgxSpinnerModule.forRoot({
+    type: "line-scale-part"
+  }))],
 };
