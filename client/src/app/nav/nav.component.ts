@@ -1,5 +1,5 @@
 import {Component, importProvidersFrom, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {FormsModule} from "@angular/forms";
 import {AccountService} from "../_services/account.service";
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
@@ -11,7 +11,7 @@ import {ToastrService} from "ngx-toastr";
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive, NgOptimizedImage],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.scss'
 })

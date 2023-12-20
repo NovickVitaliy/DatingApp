@@ -10,11 +10,12 @@ import {GalleryComponent} from "ng-gallery";
 import {FormsModule, NgForm} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
+import {PhotoEditorComponent} from "../photo-editor/photo-editor.component";
 
 @Component({
     selector: 'app-member-edit',
     standalone: true,
-    imports: [CommonModule, GalleryComponent, FormsModule],
+    imports: [CommonModule, GalleryComponent, FormsModule, PhotoEditorComponent],
     templateUrl: './member-edit.component.html',
     styleUrl: './member-edit.component.scss'
 })

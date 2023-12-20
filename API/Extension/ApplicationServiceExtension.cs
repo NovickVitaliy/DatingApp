@@ -1,5 +1,6 @@
 using System.Text;
 using API.Data;
+using API.Entities;
 using API.Helpers;
 using API.Interfaces;
 using API.Services;
@@ -13,6 +14,7 @@ public static class ApplicationServiceExtension
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySetting"));
         services.AddAutoMapper(typeof(AutoMapperProfiles));
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ITokenService, TokenService>();
@@ -30,8 +32,9 @@ public static class ApplicationServiceExtension
         {
             optionsBuilder.UseSqlite(configuration.GetConnectionString("Default"));
         });
-
+        
         services.AddControllers();
+        services.AddScoped<IPhotoService, PhotoService>();
 
 
         return services;
