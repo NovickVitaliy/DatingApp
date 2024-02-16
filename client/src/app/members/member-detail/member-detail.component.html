@@ -1,8 +1,11 @@
-<div *ngIf="member" class="row">
+<div class="row">
   <div class="col-4">
     <div class="card">
       <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs}}" class="card-img-top img-thumbnail">
       <div class="card-body">
+        <div class="mb-2" *ngIf="(presenceService.onlineUsers$ | async)?.includes(member.userName)">
+          <i class="fa fa-user-circle text-success"></i>Online now
+        </div>
         <div>
           <strong>Location:</strong>
           <p>{{member.city}}, {{member.country}}</p>
@@ -17,7 +20,7 @@
         </div>
         <div>
           <strong>Member since:</strong>
-          <p>{{member.created}}</p>
+          <p>{{member.created | date}}</p>
         </div>
       </div>
 
@@ -46,7 +49,7 @@
           <gallery class="gallery" [items]="images">Photos will go here</gallery>
         </div>
         <div>
-          <p>Messages will go here</p>
+          <app-member-messages [username]="member.userName"></app-member-messages>
         </div>
     </div>
   </div>

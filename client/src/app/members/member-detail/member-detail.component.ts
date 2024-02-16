@@ -4,35 +4,38 @@ import {Member} from "../../_models/member";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MembersService} from "../../_services/members.service";
 import {GalleryItem, GalleryModule, ImageItem} from "ng-gallery";
+import {MemberMessagesComponent} from "../member-messages/member-messages.component";
+import {PresenceService} from "../../_services/presence.service";
 
 @Component({
   selector: 'app-member-detail',
   standalone: true,
-  imports: [CommonModule, GalleryModule],
+  imports: [CommonModule, GalleryModule, MemberMessagesComponent],
   templateUrl: './member-detail.component.html',
   styleUrl: './member-detail.component.scss'
 })
 export class MemberDetailComponent implements OnInit {
-  member: Member | undefined;
+  member: Member = {} as Member;
   images: GalleryItem[] = [];
 
   constructor(private membersService: MembersService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              public presenceService: PresenceService) {
   }
 
   ngOnInit(): void {
-    this.loadMember();
+    this.activatedRoute.data.subscribe({
+      next: data => this.member = data['member']
+    })
+
+    this.activatedRoute.queryParams.subscribe({
+      next: params => params['tab'] && this.selectTab(params['tab'])
+    })
+
+    this.getImages();
   }
 
-  loadMember() {
-    let username = this.activatedRoute.snapshot.paramMap.get('username');
-    if (!username) return;
-    this.membersService.getMember(username).subscribe({
-      next: member => {
-        this.member = member;
-        this.getImages();
-      }
-    });
+  selectTab(heading: string){
   }
 
   getImages(){
